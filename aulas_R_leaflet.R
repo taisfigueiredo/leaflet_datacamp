@@ -1,4 +1,10 @@
 
+#usethis::use_git()
+#usethis::use_github()
+#usethis::use_readme_md()
+
+
+
 # INTRODUCTION TO LEAFLET
 
 
@@ -8,7 +14,7 @@ library(htmlwidgets)
 library(ggmap)
 
 
-
+usethis::use_git("Capítulo 1 - curso leaflet") 
 
 #-----------------------------------------------------------------------------------------------------------#
 #                                              CAPÍTULO 1                                                   #
