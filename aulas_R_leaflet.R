@@ -127,8 +127,7 @@ map_zoom <- map %>%
 map_zoom
 
 
-usethis::use_git("Capítulo 1 - curso leaflet")
-usethis::pr_push()
+
 
 
 #----------------------------------------------- CAPITULO 2 ----------------------------------#
@@ -200,3 +199,47 @@ map2 %>%
   addCircleMarkers(data = ca, radius = 2, 
                    popup = ~paste0("<b>", name, "</b>", "<br/>", sector_label))
 
+
+# Add circle markers with labels identifying the name of each college
+map %>% 
+  addCircleMarkers(data = ca, radius = 2, label = ~name)
+
+# Use paste0 to add sector information to the label inside parentheses 
+map %>% 
+  addCircleMarkers(data = ca, radius = 2, label = ~paste0(name, " (", sector_label, ")"))
+
+
+# Make a color palette called pal for the values of `sector_label` using `colorFactor()`  
+# Colors should be: "red", "blue", and "#9b4a11" for "Public", "Private", and "For-Profit" colleges, respectively
+pal <- colorFactor(palette = c("red", "blue", "#9b4a11"), 
+                   levels = c("Public", "Private", "For-Profit"))
+
+# Add circle markers that color colleges using pal() and the values of sector_label
+map2 <- 
+  map %>% 
+  addCircleMarkers(data = ca, radius = 2, 
+                   color = ~pal(sector_label), 
+                   label = ~paste0(name, " (", sector_label, ")"))
+
+# Print map2
+map2
+
+
+# Add a legend that displays the colors used in pal
+m %>% 
+  addLegend(pal = pal, 
+            values = c("Public", "Private", "For-Profit"))
+
+
+# Customize the legend
+m %>% 
+  addLegend(pal = pal, 
+            values = c("Public", "Private", "For-Profit"),opacity = 0.5, title = "Sector", position = "topright")
+
+
+
+usethis::use_git("Capítulo 3 - curso leaflet")
+usethis::pr_push()
+
+
+#----------------------------------------------------   CAPÍTULO  3 ------------------------------------------------------------#
