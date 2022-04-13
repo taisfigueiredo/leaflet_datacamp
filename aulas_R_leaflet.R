@@ -12,9 +12,14 @@ library(leaflet)
 library(stringr)
 library(htmlwidgets)
 library(ggmap)
+library(dplyr)
+library(tidyverse)
 
-
-usethis::use_git("Capítulo 1 - curso leaflet") 
+#usethis::use_git("Capítulo 1 - curso leaflet") 
+#usethis::pr_init(branch = "master")
+#usethis::pr_push()
+usethis::pr_init(branch = "master")
+usethis::pr_push()
 
 #-----------------------------------------------------------------------------------------------------------#
 #                                              CAPÍTULO 1                                                   #
@@ -119,3 +124,46 @@ map_zoom <- map %>%
 
 # Print map_zoom
 map_zoom
+
+
+
+#----------------------------------------------- CAPITULO 2 ----------------------------------#
+
+
+# Remove colleges with missing sector information
+ipeds <- 
+  ipeds_missing %>% 
+  drop_na() 
+
+# Count the number of four-year colleges in each state
+ipeds %>% 
+  group_by(state) %>% 
+  count()
+
+
+# Create a list of US States in descending order by the number of colleges in each state
+ipeds  %>% 
+  group_by(state)  %>% 
+  count()  %>% 
+  arrange(desc(n))
+
+
+# Create a dataframe called `ca` with data on only colleges in California
+ca <- ipeds %>%
+  filter(state == "CA")
+
+# Use `addMarkers` to plot all of the colleges in `ca` on the `m` leaflet map
+map %>%
+  addMarkers(lng = ca$lng, lat = ca$lat)
+
+# Center the map on LA 
+map %>% 
+  addMarkers(data = ca) %>% 
+  setView(lat = la_coords$lat, lng = la_coords$lon, zoom = 12)
+
+
+# Change the radius of each circle to be 2 pixels and the color to red
+map2 %>% 
+  addCircleMarkers(lng = ca$lng, lat = ca$lat,
+                   radius = 2, color = "red")
+
