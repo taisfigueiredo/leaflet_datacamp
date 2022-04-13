@@ -249,4 +249,20 @@ library(leaflet.extras)
 
 leaflet() %>% 
   addTiles() %>% 
-  addSearchOSM()
+  addSearchOSM()%>% 
+  addReverseSearchOSM()
+
+
+
+
+m2 <- 
+  ipeds %>% 
+  leaflet() %>% 
+  # use the CartoDB provider tile
+  addProviderTiles("CartoDB") %>% 
+  # center on the middle of the US with zoom of 3
+  setView(lat = 39.8282, lng = -98.5795, zoom = 3)
+
+# Map all American colleges 
+m2 %>% 
+  addCircleMarkers() 
