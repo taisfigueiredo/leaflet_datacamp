@@ -18,7 +18,8 @@ library(tidyverse)
 #usethis::use_git("Capítulo 1 - curso leaflet") 
 #usethis::pr_init(branch = "master")
 #usethis::pr_push()
-usethis::pr_init(branch = "master")
+usethis::pr_init()
+usethis::use_git("Capítulo 1 - curso leaflet")
 usethis::pr_push()
 
 #-----------------------------------------------------------------------------------------------------------#
@@ -126,6 +127,9 @@ map_zoom <- map %>%
 map_zoom
 
 
+usethis::use_git("Capítulo 1 - curso leaflet")
+usethis::pr_push()
+
 
 #----------------------------------------------- CAPITULO 2 ----------------------------------#
 
@@ -166,4 +170,33 @@ map %>%
 map2 %>% 
   addCircleMarkers(lng = ca$lng, lat = ca$lat,
                    radius = 2, color = "red")
+
+
+# Add circle markers with popups for college names
+map %>%
+  addCircleMarkers(data = ca, radius = 2, popup = ~name)
+
+# Change circle color to #2cb42c and store map in map_color object
+map_color <- map %>% 
+  addCircleMarkers(data = ca, radius = 2, color = "#2cb42c", popup = ~name)
+
+# Print map_color
+map_color
+
+
+# Clear the bounds and markers on the map object and store in map2
+map2 <- map %>% 
+  clearMarkers() %>% 
+  clearBounds()
+
+# Add circle markers with popups that display both the institution name and sector
+map2 %>% 
+  addCircleMarkers(data = ca, radius = 2, 
+                   popup = ~paste0(name, "<br/>", sector_label))
+
+
+# Make the institution name in each popup bold
+map2 %>% 
+  addCircleMarkers(data = ca, radius = 2, 
+                   popup = ~paste0("<b>", name, "</b>", "<br/>", sector_label))
 
